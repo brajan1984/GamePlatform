@@ -6,7 +6,7 @@ namespace GamePlatform.Api.Boards.Interfaces
     public interface IBoard<TPolygon> : IGameElement
         where TPolygon : IPolygon
     {
-        List<TPolygon> Cells { get; }
+        IEnumerable<TPolygon> Cells { get; }
 
         void CreateBoard();
     }

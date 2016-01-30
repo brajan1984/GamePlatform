@@ -81,6 +81,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Boards\BasicBoardTests.cs" />
+    <Compile Include="Games\LonerGameTests.cs" />
+    <Compile Include="Modifiers\MakeMoveModifierTests.cs" />
+    <Compile Include="Modifiers\StartGameModifierTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@ using System;
 
 namespace GamePlatform.Api.Rulers
 {
-    public class RulerBase : IModifierSeizer, IGameElement
+    public class RulerBase : IRuler
     {
         private IModifierBus _bus;
         private IRules _rules;

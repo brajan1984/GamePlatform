@@ -57,10 +57,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boards\BasicBoard.cs" />
+    <Compile Include="Boards\BasicPolygon.cs" />
     <Compile Include="Boards\Interfaces\IBasicBoard.cs" />
     <Compile Include="Boards\Interfaces\IBasicPolygon.cs" />
-    <Compile Include="Boards\BasicPolygon.cs" />
+    <Compile Include="Games\Interfaces\ILonerGame.cs" />
+    <Compile Include="Games\LonerGame.cs" />
     <Compile Include="Modifiers\MakeMoveModifier.cs" />
+    <Compile Include="Modifiers\StartGameModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +74,9 @@
       <Project>{d39c91f5-996c-4347-9c93-5f7c740292de}</Project>
       <Name>GamePlatform.Api</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Rules\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -42,14 +42,13 @@ namespace LonerTests.Boards
             var cells = _board.Cells;
 
             var solidCells = cells.Where(c => 
-                (c.Coordintes.X >= 0 && c.Coordintes.X <= 1 && c.Coordintes.Y >= 0 && c.Coordintes.Y <= 1 && c.Coordintes.Z == 0) ||
+                ((c.Coordintes.X >= 0 && c.Coordintes.X <= 1 && c.Coordintes.Y >= 0 && c.Coordintes.Y <= 1 && c.Coordintes.Z == 0) ||
                 (c.Coordintes.X >= 5 && c.Coordintes.X <= 6 && c.Coordintes.Y >= 0 && c.Coordintes.Y <= 1 && c.Coordintes.Z == 0) ||
                 (c.Coordintes.X >= 0 && c.Coordintes.X <= 1 && c.Coordintes.Y >= 5 && c.Coordintes.Y <= 6 && c.Coordintes.Z == 0) ||
-                (c.Coordintes.X >= 5 && c.Coordintes.X <= 6 && c.Coordintes.Y >= 5 && c.Coordintes.Y <= 6 && c.Coordintes.Z == 0)).ToList();
+                (c.Coordintes.X >= 5 && c.Coordintes.X <= 6 && c.Coordintes.Y >= 5 && c.Coordintes.Y <= 6 && c.Coordintes.Z == 0)) && 
+                c.State == PolygonState.Solid).ToList();
 
-            solidCells.Count.Should().Be(12);
-
-            solidCells.ForEach(c => c.State.Should().Be(PolygonState.Solid));
+            solidCells.Count.Should().Be(16);
         }
 
         [TestMethod]
@@ -60,13 +59,11 @@ namespace LonerTests.Boards
             var cells = _board.Cells;
 
             var filledCells = cells.Where(c =>
-                ((c.Coordintes.X >= 0 && c.Coordintes.X <= 6 && c.Coordintes.Y >= 3 && c.Coordintes.Y <= 5 && c.Coordintes.Z == 0) ||
-                (c.Coordintes.X >= 3 && c.Coordintes.X <= 5 && c.Coordintes.Y >= 0 && c.Coordintes.Y <= 6 && c.Coordintes.Z == 0)) &&
-                c.Coordintes.X != 3 && c.Coordintes.Y != 3).ToList();
+                (((c.Coordintes.X >= 0 && c.Coordintes.X <= 6 && c.Coordintes.Y >= 2 && c.Coordintes.Y <= 4 && c.Coordintes.Z == 0) ||
+                (c.Coordintes.X >= 2 && c.Coordintes.X <= 4 && c.Coordintes.Y >= 0 && c.Coordintes.Y <= 6 && c.Coordintes.Z == 0)) &&
+                c.State == PolygonState.Filled)).ToList();
 
             filledCells.Count.Should().Be(32);
-
-            filledCells.ForEach(c => c.State.Should().Be(PolygonState.Filled));
         }
     }
 }

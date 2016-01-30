@@ -18,7 +18,7 @@ namespace GamePlatformTest.Modifiers
     {
         private Mock<IModifierBus> _bus;
         private ModifierExecutor _modifierExecutor;
-        private Mock<IDirectModifier<IGameElement, IGameElement>> _modifier;
+        private Mock<IDirectModifier<IGameElement>> _modifier;
         private Mock<IScenario> _scenario;
         
         [TestInitialize]
@@ -26,7 +26,8 @@ namespace GamePlatformTest.Modifiers
         {
             _bus = new Moq.Mock<IModifierBus>();
             _scenario = new Mock<IScenario>();
-            _modifier = new Mock<IDirectModifier<IGameElement, IGameElement>>();
+            _modifier = new Mock<IDirectModifier<IGameElement>>();
+            _modifierExecutor = new ModifierExecutor(_bus.Object);
 
             _scenario.SetupGet(s => s.Modifiers).Returns(Enumerable.Range(0, 5).Select(x => new Mock<IModifier>().Object).ToList());
         }

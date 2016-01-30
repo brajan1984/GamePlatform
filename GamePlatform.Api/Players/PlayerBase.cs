@@ -20,7 +20,7 @@ namespace GamePlatform.Api.Players
             _bus = bus;
         }
 
-        public void HeaveModifier<TTarget>(IDirectModifier<IPlayer, TTarget> modifier) 
+        public void HeaveModifier<TTarget>(IDirectModifier<TTarget> modifier) 
             where TTarget : IGameElement
         {
             if (modifier.Target == null)

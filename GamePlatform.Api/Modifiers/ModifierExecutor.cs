@@ -9,7 +9,8 @@ namespace GamePlatform.Api.ModifierBus
 {
     public class ModifierExecutor : IModifierSeizer
     {
-        IModifierBus _bus = null;
+        IModifierBus _bus;
+        IDisposable _subscription;
 
         public ModifierExecutor(IModifierBus bus)
         {
@@ -28,17 +29,17 @@ namespace GamePlatform.Api.ModifierBus
 
         public void OnNext(IModifier value)
         {
-            throw new NotImplementedException();
+            value.Modify();
         }
 
         public void Subscribe()
         {
-            throw new NotImplementedException();
+            _subscription = _bus.SubscribeOnScenario(this);
         }
 
         public void Unsubscribe()
         {
-            throw new NotImplementedException();
+            _bus.Unsubscribe(_subscription);
         }
     }
 }

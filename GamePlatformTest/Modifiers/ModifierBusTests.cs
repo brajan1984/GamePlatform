@@ -17,7 +17,7 @@ namespace GamePlatformTest.Modifiers
     public class BusTests
     {
         private ModifierBus _bus;
-        private Mock<IDirectModifier<IPlayer, IGameElement>> _modifier;
+        private Mock<IDirectModifier<IGameElement>> _modifier;
         private Mock<IScenario> _scenario;
         private Mock<IObserver<IModifier>> _observer;
 
@@ -25,7 +25,7 @@ namespace GamePlatformTest.Modifiers
         public void Setup()
         {
             _bus = new ModifierBus();
-            _modifier = new Mock<IDirectModifier<IPlayer, IGameElement>>();
+            _modifier = new Mock<IDirectModifier<IGameElement>>();
             _scenario = new Mock<IScenario>();
             _observer = new Mock<IObserver<IModifier>>();
         }

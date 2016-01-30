@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace GamePlatform.Api.Modifiers.Interfaces
 {
-    public interface IDirectModifier<in TSource, out TTarget> : ICastModifier
-        where TSource : IGameElement
+    public interface IDirectModifier<out TTarget> : ICastModifier
+        where TTarget : IGameElement
     {
-        TSource Source { set; }
         TTarget Target { get; }
     }
 }

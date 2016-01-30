@@ -22,7 +22,7 @@ namespace GamePlatformTest.Rulers
         private Mock<IModifierBus> _bus;
         private Mock<IRules> _rules;
         private RulerBase _ruler;
-        private Mock<IDirectModifier<IGameElement, IGameElement>> _modifier;
+        private Mock<IDirectModifier<IGameElement>> _modifier;
         private Mock<IGameElement> _target;
         private Mock<IScenario> _scenario; 
 
@@ -33,7 +33,7 @@ namespace GamePlatformTest.Rulers
             _target = new Mock<IGameElement>();
             _rules = new Mock<IRules>();
             _scenario = new Mock<IScenario>();
-            _modifier = new Mock<IDirectModifier<IGameElement, IGameElement>>();
+            _modifier = new Mock<IDirectModifier<IGameElement>>();
             _modifier.SetupGet(m => m.Target).Returns(_target.Object);
             _rules.Setup(r => r.Advise(_modifier.Object)).Returns(_scenario.Object);
             
@@ -44,7 +44,7 @@ namespace GamePlatformTest.Rulers
         public void RulerBase_BroadcastsMessage()
         {
             _ruler.OnNext(_modifier.Object);
-            _rules.Verify(r => r.Advise(It.Is<IDirectModifier<IGameElement, IGameElement>>(m => m == _modifier.Object)), Times.Once);
+            _rules.Verify(r => r.Advise(It.Is<IDirectModifier<IGameElement>>(m => m == _modifier.Object)), Times.Once);
             _bus.Verify(b => b.OnNext(It.Is<IScenario>(s => s == _scenario.Object)), Times.Once);
         }
 

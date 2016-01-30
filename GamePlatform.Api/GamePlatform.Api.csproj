@@ -57,7 +57,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boards\Interfaces\IBoard.cs" />
-    <Compile Include="Games\Game.cs" />
+    <Compile Include="Boards\Interfaces\IPolygon.cs" />
+    <Compile Include="Entities\Point3d.cs" />
     <Compile Include="Games\Interfaces\IGame.cs" />
     <Compile Include="Games\Interfaces\IGameElement.cs" />
     <Compile Include="Modifiers\Interfaces\ICastModifier.cs" />

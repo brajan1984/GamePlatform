@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace GamePlatform.Api.ModifierBus.Interfaces
 {
-    public interface IModificationHeaver<TSource>
-        where TSource : IGameElement
+    public interface IModificationHeaver
     {
-        void HeaveModifier<TTarget>(IDirectModifier<TSource, TTarget> modifier)
+        void HeaveModifier<TTarget>(IDirectModifier<TTarget> modifier)
             where TTarget : IGameElement;
     }
 }

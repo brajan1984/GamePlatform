@@ -14,9 +14,41 @@ namespace GamePlatformTest
     [TestClass]
     public class PlayerTests
     {
+
+        //class SomePlayer : PlayerBase
+        //{
+        //    public string SomeP { get; set; }
+
+        //    public SomePlayer(IModifierBus bus)
+        //        : base(bus)
+        //    {
+        //        SomeP = "aaa";
+        //    }
+        //}
+
+        //class SomeMod : IDirectModifier<SomePlayer>
+        //{
+        //    public IGameElement Source { get; set; }
+
+        //    public SomePlayer Target { private set; get; }
+
+        //    public void Modify()
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
+
+        //class SomePlayer2 : SomePlayer
+        //{
+        //    public SomePlayer2(IModifierBus bus)
+        //        : base(bus)
+        //    {
+        //    }
+        //}
+
         private Mock<IModifierBus> _bus;
         private PlayerBase _player;
-        private Mock<IDirectModifier<IPlayer, IGameElement>> _modifier;
+        private Mock<IDirectModifier<IGameElement>> _modifier;
         private Mock<IGameElement> _target;
 
         [TestInitialize]
@@ -28,9 +60,16 @@ namespace GamePlatformTest
 
             _player = new PlayerBase(_bus.Object);
 
-            _modifier = new Mock<IDirectModifier<IPlayer, IGameElement>>();
+            _modifier = new Mock<IDirectModifier<IGameElement>>();
 
             _modifier.SetupGet(m => m.Target).Returns(_target.Object);
+
+            //SomePlayer p1 = new SomePlayer(_bus.Object);
+            //SomePlayer p2 = new SomePlayer(_bus.Object);
+
+            //IDirectModifier<IPlayer> g = new SomeMod();
+
+            //p1.HeaveModifier(new SomeMod());
         }
 
         [TestMethod]

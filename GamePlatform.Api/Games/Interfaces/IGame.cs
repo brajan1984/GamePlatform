@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GamePlatform.Api.Games.Interfaces
 {
-    public interface IGame
+    public interface IGame : IGameElement
     {
         bool IsStarted { get; }
         bool HasEnded { get; }

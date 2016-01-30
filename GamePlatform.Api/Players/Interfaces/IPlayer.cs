@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GamePlatform.Api.Players.Interfaces
 {
-    public interface IPlayer : IModificationHeaver<IPlayer>, IGameElement
+    public interface IPlayer : IModificationHeaver, IGameElement
     {
     }
 }

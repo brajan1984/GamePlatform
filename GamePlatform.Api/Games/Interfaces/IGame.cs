@@ -1,10 +1,5 @@
-﻿using GamePlatform.Api.ModifierBus.Interfaces;
-using GamePlatform.Api.Players.Interfaces;
-using System;
+﻿using GamePlatform.Api.Players.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GamePlatform.Api.Games.Interfaces
 {
@@ -15,8 +10,9 @@ namespace GamePlatform.Api.Games.Interfaces
         IPlayer TheWinnerIs { get; }
         List<IPlayer> Players { get; }
         //IBoard Board { get; }
-        
+
         void Start();
+
         void End();
 
         void Join(IPlayer player);

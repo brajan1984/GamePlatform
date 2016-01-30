@@ -1,16 +1,12 @@
 ﻿using GamePlatform.Api.ModifierBus.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GamePlatform.Api.ModifierBus
 {
     public class ModifierExecutor : IModifierSeizer
     {
-        IModifierBus _bus;
-        IDisposable _subscription;
+        private IModifierBus _bus;
+        private IDisposable _subscription;
 
         public ModifierExecutor(IModifierBus bus)
         {

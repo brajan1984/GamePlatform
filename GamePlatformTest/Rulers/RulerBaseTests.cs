@@ -1,21 +1,15 @@
 ﻿using GamePlatform.Api.Games.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
 using GamePlatform.Api.Modifiers.Interfaces;
-using GamePlatform.Api.Players.Interfaces;
 using GamePlatform.Api.Rulers;
 using GamePlatform.Api.Rulers.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Disposables;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GamePlatformTest.Rulers
 {
-
     [TestClass]
     public class RulerBaseTests
     {
@@ -24,7 +18,7 @@ namespace GamePlatformTest.Rulers
         private RulerBase _ruler;
         private Mock<IDirectModifier<IGameElement>> _modifier;
         private Mock<IGameElement> _target;
-        private Mock<IScenario> _scenario; 
+        private Mock<IScenario> _scenario;
 
         [TestInitialize]
         public void Setup()
@@ -36,7 +30,7 @@ namespace GamePlatformTest.Rulers
             _modifier = new Mock<IDirectModifier<IGameElement>>();
             _modifier.SetupGet(m => m.Target).Returns(_target.Object);
             _rules.Setup(r => r.Advise(_modifier.Object)).Returns(_scenario.Object);
-            
+
             _ruler = new RulerBase(_bus.Object, _rules.Object);
         }
 

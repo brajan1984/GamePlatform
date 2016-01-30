@@ -2,14 +2,9 @@
 using GamePlatform.Api.ModifierBus.Interfaces;
 using GamePlatform.Api.Modifiers;
 using GamePlatform.Api.Modifiers.Interfaces;
-using GamePlatform.Api.Players.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GamePlatformTest.Modifiers
 {
@@ -64,7 +59,6 @@ namespace GamePlatformTest.Modifiers
             _bus.OnNext(_scenario.Object);
 
             _observer.Verify(o => o.OnNext(It.Is<IModifier>(m => m == _scenario.Object)), Times.Never);
-
         }
     }
 }

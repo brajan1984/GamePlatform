@@ -56,11 +56,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Boards\BasicBoard.cs" />
+    <Compile Include="Boards\Interfaces\IBasicBoard.cs" />
+    <Compile Include="Boards\Interfaces\IBasicPolygon.cs" />
+    <Compile Include="Boards\BasicPolygon.cs" />
+    <Compile Include="Modifiers\MakeMoveModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GamePlatform.Api\GamePlatform.Api.csproj">
+      <Project>{d39c91f5-996c-4347-9c93-5f7c740292de}</Project>
+      <Name>GamePlatform.Api</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

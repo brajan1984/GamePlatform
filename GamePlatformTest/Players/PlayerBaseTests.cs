@@ -1,20 +1,16 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using GamePlatform.Api.Games.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
-using GamePlatform.Api.Players;
-using Moq;
-using System.Reactive.Linq;
-using GamePlatform.Api.Players.Interfaces;
-using System.Reactive.Disposables;
-using GamePlatform.Api.Games.Interfaces;
 using GamePlatform.Api.Modifiers.Interfaces;
+using GamePlatform.Api.Players;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System;
 
 namespace GamePlatformTest
 {
     [TestClass]
     public class PlayerTests
     {
-
         //class SomePlayer : PlayerBase
         //{
         //    public string SomeP { get; set; }

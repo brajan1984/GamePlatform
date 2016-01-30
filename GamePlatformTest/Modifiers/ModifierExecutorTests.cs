@@ -5,11 +5,8 @@ using GamePlatform.Api.Modifiers.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GamePlatformTest.Modifiers
 {
@@ -20,7 +17,7 @@ namespace GamePlatformTest.Modifiers
         private ModifierExecutor _modifierExecutor;
         private Mock<IDirectModifier<IGameElement>> _modifier;
         private Mock<IScenario> _scenario;
-        
+
         [TestInitialize]
         public void Setup()
         {

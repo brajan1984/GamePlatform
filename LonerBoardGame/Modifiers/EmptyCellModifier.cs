@@ -22,7 +22,7 @@ namespace LonerBoardGame.Modifiers
 
         public void Modify()
         {
-            throw new NotImplementedException();
+            Target.State = PolygonState.Empty;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace LonerBoardGame.Modifiers
 
         public void Modify()
         {
-            throw new NotImplementedException();
+            Target.Start();
         }
     }
 }

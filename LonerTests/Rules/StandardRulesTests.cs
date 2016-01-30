@@ -11,6 +11,7 @@ using GamePlatform.Api.Entities;
 using LonerBoardGame.Games.Interfaces;
 using LonerBoardGame.Modifiers;
 using FluentAssertions;
+using LonerBoardGame.Boards;
 
 namespace LonerBoardGame.Rules.Tests
 {
@@ -41,17 +42,17 @@ namespace LonerBoardGame.Rules.Tests
                 {
                     if (y == 0 || y == 6 || x == 0 || x == 6)
                     {
-                        var solid = new Mock<IBasicPolygon>();
-                        solid.SetupGet(s => s.State).Returns(PolygonState.Solid);
-                        solid.SetupGet(s => s.Coordintes).Returns(new Point3d() { X = x, Y = y });
-                        testBoard.Add(solid.Object);
+                        var solid = new BasicPolygon();
+                        solid.State = PolygonState.Solid;
+                        solid.Coordintes = new Point3d() { X = x, Y = y };
+                        testBoard.Add(solid);
                     }
                     else
                     {
-                        var empty = new Mock<IBasicPolygon>();
-                        empty.SetupGet(s => s.State).Returns(PolygonState.Empty);
-                        empty.SetupGet(s => s.Coordintes).Returns(new Point3d() { X = x, Y = y });
-                        testBoard.Add(empty.Object);
+                        var empty = new BasicPolygon();
+                        empty.State = PolygonState.Empty;
+                        empty.Coordintes = new Point3d() { X = x, Y = y };
+                        testBoard.Add(empty);
                     }
                 }
             }
@@ -75,6 +76,7 @@ namespace LonerBoardGame.Rules.Tests
         public void StandardRules_AdviseMoveCorrectlyHorizontallyFrontGameInProgress_Test()
         {
             var cellToFill = _board.Object.Cells.Where(c => c.Coordintes.X == 1 && c.Coordintes.Y == 2).First();
+
             cellToFill.State = PolygonState.Filled;
 
             var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 1, Y = 2 }, new Point3d() { X = 3, Y = 2 });
@@ -94,6 +96,7 @@ namespace LonerBoardGame.Rules.Tests
         public void StandardRules_AdviseMoveCorrectlyHorizontallyBackGameInProgress_Test()
         {
             var cellToFill = _board.Object.Cells.Where(c => c.Coordintes.X == 3 && c.Coordintes.Y == 2).First();
+
             cellToFill.State = PolygonState.Filled;
 
             var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 3, Y = 2 }, new Point3d() { X = 1, Y = 2 });
@@ -113,6 +116,7 @@ namespace LonerBoardGame.Rules.Tests
         public void StandardRules_AdviseMoveCorrectlyVerticallyFrontGameInProgress_Test()
         {
             var cellToFill = _board.Object.Cells.Where(c => c.Coordintes.X == 2 && c.Coordintes.Y == 1).First();
+
             cellToFill.State = PolygonState.Filled;
 
             var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 1 }, new Point3d() { X = 2, Y = 3 });
@@ -132,6 +136,7 @@ namespace LonerBoardGame.Rules.Tests
         public void StandardRules_AdviseMoveCorrectlyVerticallyBackGameInProgress_Test()
         {
             var cellToFill = _board.Object.Cells.Where(c => c.Coordintes.X == 2 && c.Coordintes.Y == 3).First();
+
             cellToFill.State = PolygonState.Filled;
 
             var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 3 }, new Point3d() { X = 2, Y = 1 });
@@ -230,6 +235,21 @@ namespace LonerBoardGame.Rules.Tests
             cellToFill.State = PolygonState.Filled;
 
             var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 3, Y = 2 }, new Point3d() { X = 3, Y = 0 });
+
+            var scenario = _rules.Advise(modifier);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void StandardRules_AdviseMoveCorrectlyOutsideBoard_Test()
+        {
+            var cellToFill = _board.Object.Cells.Where(c => c.Coordintes.X == 6 && c.Coordintes.Y == 3).First();
+            cellToFill.State = PolygonState.Filled;
+
+            cellToFill = _board.Object.Cells.Where(c => c.Coordintes.X == 5 && c.Coordintes.Y == 3).First();
+            cellToFill.State = PolygonState.Filled;
+
+            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 5, Y = 3 }, new Point3d() { X = 7, Y = 0 });
 
             var scenario = _rules.Advise(modifier);
         }

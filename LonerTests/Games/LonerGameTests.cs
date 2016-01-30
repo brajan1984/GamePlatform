@@ -25,7 +25,7 @@ namespace LonerTests.Games
         [TestMethod]
         public void LonerGame_Starts()
         {
-
+            Assert.Fail();
         }
     }
 }

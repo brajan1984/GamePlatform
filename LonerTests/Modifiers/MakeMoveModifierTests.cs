@@ -1,4 +1,5 @@
-﻿using GamePlatform.Api.Entities;
+﻿using FluentAssertions;
+using GamePlatform.Api.Entities;
 using LonerBoardGame.Boards.Interfaces;
 using LonerBoardGame.Modifiers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -47,7 +48,14 @@ namespace LonerTests.Modifiers
             _modifier.Modify();
 
             _cell1.VerifySet(c1 => c1.State = PolygonState.Empty);
+            _cell1.Object.Coordintes.X.Should().Be(0);
+            _cell1.Object.Coordintes.Y.Should().Be(0);
+            _cell1.Object.Coordintes.Z.Should().Be(0);
+
             _cell2.VerifySet(c2 => c2.State = PolygonState.Filled);
+            _cell2.Object.Coordintes.X.Should().Be(1);
+            _cell2.Object.Coordintes.Y.Should().Be(1);
+            _cell2.Object.Coordintes.Z.Should().Be(0);
         }
     }
 }

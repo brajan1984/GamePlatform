@@ -82,9 +82,11 @@
   <ItemGroup>
     <Compile Include="Boards\BasicBoardTests.cs" />
     <Compile Include="Games\LonerGameTests.cs" />
+    <Compile Include="Modifiers\EmptyCellModifierTests.cs" />
     <Compile Include="Modifiers\MakeMoveModifierTests.cs" />
     <Compile Include="Modifiers\StartGameModifierTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\StandardRulesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -71,6 +71,7 @@
     <Compile Include="Modifiers\Interfaces\IScenario.cs" />
     <Compile Include="Modifiers\ModifierBus.cs" />
     <Compile Include="Modifiers\ModifierExecutor.cs" />
+    <Compile Include="Modifiers\Modifiers\SimpleScenario.cs" />
     <Compile Include="Players\Interfaces\IPlayer.cs" />
     <Compile Include="Players\PlayerBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,9 +82,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Modifiers\Modifiers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,6 +4,6 @@ namespace GamePlatform.Api.ModifierBus.Interfaces
 {
     public interface IScenario : IModifier
     {
-        List<IModifier> Modifiers { get; set; }
+        List<IModifier> Modifiers { get; }
     }
 }

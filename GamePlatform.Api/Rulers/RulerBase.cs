@@ -62,7 +62,7 @@ namespace GamePlatform.Api.Rulers
             {
                 IErrorInfo info = new ErrorInfo();
                 info.Error = ex;
-                info.Message = "Invalid move: {ex.Message}";
+                info.Message = "Invalid move: " + ex.Message;
 
                 _infoChannel.OnNext(info);
             }

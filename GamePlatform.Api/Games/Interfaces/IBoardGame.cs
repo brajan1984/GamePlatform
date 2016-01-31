@@ -1,5 +1,7 @@
 ﻿using GamePlatform.Api.Boards.Interfaces;
+using GamePlatform.Api.Infos.Interfaces;
 using GamePlatform.Api.Players.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace GamePlatform.Api.Games.Interfaces
@@ -10,8 +12,9 @@ namespace GamePlatform.Api.Games.Interfaces
     {
         bool IsStarted { get; }
         bool HasEnded { get; }
-        List<TPlayer> Players { get; }
+        IEnumerable<TPlayer> Players { get; }
         IBoard<TPolygon> Board { get; }
+        IObservable<IInfo> InfoChannel { get; }
 
         void Start();
 

@@ -8,7 +8,7 @@
 
         public override string ToString()
         {
-            return "X = {X}, Y = {Y}, Z = {Z}";
+            return string.Format("X = {0}, Y = {1}, Z = {2}", X, Y, Z);
         }
     }
 }

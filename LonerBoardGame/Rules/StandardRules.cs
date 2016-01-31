@@ -19,18 +19,16 @@ namespace LonerBoardGame.Rules
     public class StandardRules : IRules
     {
         private readonly Dictionary<Type, Func<IModifier, IScenario>> _judge = new Dictionary<Type, Func<IModifier, IScenario>>();
-        private readonly ILonerGame _game;
-
-        public StandardRules(ILonerGame game)
+        public ILonerGame Game { get; set; }
+        
+        public StandardRules()
         {
-            _game = game;
-
             _judge.Add(typeof(MakeMoveModifier), m => { return MoveScenario(m as MakeMoveModifier); });
         }
 
         private IBasicPolygon GetCell(Point3d coordinates)
         {
-            return _game.Board.Cells.Where(c => c.Coordintes.X == coordinates.X &&
+            return Game.Board.Cells.Where(c => c.Coordintes.X == coordinates.X &&
                                                     c.Coordintes.Y == coordinates.Y &&
                                                     c.Coordintes.Z == coordinates.Z)
                                                     .FirstOrDefault();
@@ -111,7 +109,7 @@ namespace LonerBoardGame.Rules
 
             if (cell.State == PolygonState.Solid)
             {
-                throw new InvalidOperationException("Cell with coordinates {coordinates} is solid.");
+                throw new InvalidOperationException(string.Format("Cell with coordinates {0} is solid.", coordinates));
             }
         }
 
@@ -126,7 +124,7 @@ namespace LonerBoardGame.Rules
             }
             else
             {
-                throw new InvalidOperationException("Can't move {from} -> {to}.");
+                throw new InvalidOperationException(string.Format("Can't move {0} -> {1}.", from, to));
             }
         }
 
@@ -142,7 +140,7 @@ namespace LonerBoardGame.Rules
                 cellFrom.State != PolygonState.Filled || 
                 cellTo.State != PolygonState.Empty)
             {
-                throw new InvalidOperationException("Can't move from {from}.");
+                throw new InvalidOperationException(string.Format("Can't move from {0}.", from));
             }
         }
 
@@ -185,7 +183,7 @@ namespace LonerBoardGame.Rules
 
         private bool IsGameWon()
         {
-            return _game.Board.Cells.Where(c => c.State == PolygonState.Filled).Count() <= 1;
+            return Game.Board.Cells.Where(c => c.State == PolygonState.Filled).Count() <= 1;
         }
 
         private bool HasNeighbourWithState(IBasicPolygon polygon, PolygonState state)
@@ -199,7 +197,7 @@ namespace LonerBoardGame.Rules
         {
             bool isLost = true;
 
-            var filledCells = _game.Board.Cells.Where(c => c.State == PolygonState.Filled).ToList();
+            var filledCells = Game.Board.Cells.Where(c => c.State == PolygonState.Filled).ToList();
 
             filledCells.ForEach(c =>
             {
@@ -242,7 +240,10 @@ namespace LonerBoardGame.Rules
 
             if (IsGameLost() || IsGameWon())
             {
-                postScenario.Modifiers.Add(new EndGameModifier(_game));
+                var endGameModifier = new EndGameModifier(Game);
+                endGameModifier.Source = this;
+
+                postScenario.Modifiers.Add(endGameModifier);
             }
 
             return postScenario;

@@ -11,6 +11,8 @@ using LonerBoardGame.Modifiers;
 using LonerBoardGame.Games.Interfaces;
 using GamePlatform.Api.Entities;
 using GamePlatform.Api.Modifiers.Modifiers;
+using GamePlatform.Api.Infos.Interfaces;
+using GamePlatform.Api.Infos;
 
 namespace LonerBoardGame.Rules
 {
@@ -37,6 +39,60 @@ namespace LonerBoardGame.Rules
         private IBasicPolygon GetMiddleCell(Point3d from, Point3d to)
         {
             return GetCell(new Point3d() { X = (from.X + to.X) / 2, Y = (from.Y + to.Y) / 2, Z = (from.Z + to.Z) / 2 });
+        }
+
+        private List<IBasicPolygon> GetXNeighbours(IBasicPolygon polygon)
+        {
+            var neighbours = new List<IBasicPolygon>();
+
+            for (int x = polygon.Coordintes.X - 1; x <= polygon.Coordintes.X + 1; x++)
+            {
+                if (x == polygon.Coordintes.X)
+                {
+                    continue;
+                }
+
+                var cell = GetCell(new Point3d() { X = x, Y = polygon.Coordintes.Y, Z = 0 });
+
+                if (cell != null)
+                {
+                    neighbours.Add(cell);
+                }
+            }
+
+            return neighbours;
+        }
+
+        private List<IBasicPolygon> GetYNeighbours(IBasicPolygon polygon)
+        {
+            var neighbours = new List<IBasicPolygon>();
+
+            for (int y = polygon.Coordintes.Y - 1; y <= polygon.Coordintes.Y + 1; y++)
+            {
+                if (y == polygon.Coordintes.Y)
+                {
+                    continue;
+                }
+
+                var cell = GetCell(new Point3d() { X = polygon.Coordintes.X, Y = y, Z = 0 });
+
+                if (cell != null)
+                {
+                    neighbours.Add(cell);
+                }
+            }
+
+            return neighbours;
+        }
+
+        private List<IBasicPolygon> GetNeighbours(IBasicPolygon polygon)
+        {
+            var neighbours = new List<IBasicPolygon>();
+
+            neighbours.AddRange(GetXNeighbours(polygon));
+            neighbours.AddRange(GetYNeighbours(polygon));
+
+            return neighbours;
         }
 
         private void CheckCellExists(Point3d coordinates)
@@ -125,6 +181,71 @@ namespace LonerBoardGame.Rules
             {
                 throw new InvalidOperationException("Not supported modifier {modifier}.");
             }
+        }
+
+        private bool IsGameWon()
+        {
+            return _game.Board.Cells.Where(c => c.State == PolygonState.Filled).Count() <= 1;
+        }
+
+        private bool HasNeighbourWithState(IBasicPolygon polygon, PolygonState state)
+        {
+            var neighbours = GetNeighbours(polygon);
+
+            return neighbours.Where(cn => cn.State == state).Count() > 0;
+        }
+
+        private bool IsGameLost()
+        {
+            bool isLost = true;
+
+            var filledCells = _game.Board.Cells.Where(c => c.State == PolygonState.Filled).ToList();
+
+            filledCells.ForEach(c =>
+            {
+                if (HasNeighbourWithState(c, PolygonState.Filled))
+                {
+                    var neighbours = GetNeighbours(c);
+
+                    neighbours.ForEach(n => 
+                    {
+                        if (HasNeighbourWithState(n, PolygonState.Empty))
+                        {
+                            isLost = false;
+                        }
+                    });
+                }
+            });
+
+            return isLost;
+        }
+
+        public IInfo ReportGameStatus()
+        {
+            if (IsGameWon())
+            {
+                return new GameWonInfo();
+            }
+            else if (IsGameLost())
+            {
+                return new GameLostInfo();
+            }
+            else
+            {
+                return new GameInProgressInfo();
+            }
+        }
+
+        public IScenario PostProcessing()
+        {
+            var postScenario = new SimpleScenario();
+
+            if (IsGameLost() || IsGameWon())
+            {
+                postScenario.Modifiers.Add(new EndGameModifier(_game));
+            }
+
+            return postScenario;
         }
     }
 }

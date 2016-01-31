@@ -83,6 +83,7 @@
     <Compile Include="Boards\BasicBoardTests.cs" />
     <Compile Include="Games\LonerGameTests.cs" />
     <Compile Include="Modifiers\EmptyCellModifierTests.cs" />
+    <Compile Include="Modifiers\EndGameModifierTests.cs" />
     <Compile Include="Modifiers\MakeMoveModifierTests.cs" />
     <Compile Include="Modifiers\StartGameModifierTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

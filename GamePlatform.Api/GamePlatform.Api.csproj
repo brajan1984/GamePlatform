@@ -61,6 +61,17 @@
     <Compile Include="Entities\Point3d.cs" />
     <Compile Include="Games\Interfaces\IBoardGame.cs" />
     <Compile Include="Games\Interfaces\IGameElement.cs" />
+    <Compile Include="Infos\ErrorInfo.cs" />
+    <Compile Include="Infos\GameInProgressInfo.cs" />
+    <Compile Include="Infos\GameLostInfo.cs" />
+    <Compile Include="Infos\Info.cs" />
+    <Compile Include="Infos\GameWonInfo.cs" />
+    <Compile Include="Infos\Interfaces\IErrorInfo.cs" />
+    <Compile Include="Infos\Interfaces\IGameLostInfo.cs" />
+    <Compile Include="Infos\Interfaces\IGameWonInfo.cs" />
+    <Compile Include="Infos\Interfaces\IInfo.cs" />
+    <Compile Include="Infos\Interfaces\IModificationInfo.cs" />
+    <Compile Include="Infos\ModificationInfo.cs" />
     <Compile Include="Modifiers\Interfaces\ICastModifier.cs" />
     <Compile Include="Modifiers\Interfaces\IDirectModifier.cs" />
     <Compile Include="Modifiers\Interfaces\IModificationHeaver.cs" />

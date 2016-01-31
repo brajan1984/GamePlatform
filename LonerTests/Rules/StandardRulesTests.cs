@@ -12,6 +12,7 @@ using LonerBoardGame.Games.Interfaces;
 using LonerBoardGame.Modifiers;
 using FluentAssertions;
 using LonerBoardGame.Boards;
+using GamePlatform.Api.Infos.Interfaces;
 
 namespace LonerBoardGame.Rules.Tests
 {
@@ -252,6 +253,50 @@ namespace LonerBoardGame.Rules.Tests
             var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 5, Y = 3 }, new Point3d() { X = 7, Y = 0 });
 
             var scenario = _rules.Advise(modifier);
+        }
+
+        [TestMethod]
+        public void StandardRules_ReportGameStatus_Win()
+        {
+            var cellToEmpty = _board.Object.Cells.Where(c => c.Coordintes.X == 2 && c.Coordintes.Y == 2).First();
+            cellToEmpty.State = PolygonState.Empty;
+            cellToEmpty = _board.Object.Cells.Where(c => c.Coordintes.X == 2 && c.Coordintes.Y == 4).First();
+            cellToEmpty.State = PolygonState.Empty;
+
+            var finished = _rules.ReportGameStatus();
+
+            finished.Should().BeAssignableTo<IGameWonInfo>();
+        }
+
+        [TestMethod]
+        public void StandardRules_PostProcessing_Win()
+        {
+            var cellToEmpty = _board.Object.Cells.Where(c => c.Coordintes.X == 2 && c.Coordintes.Y == 2).First();
+            cellToEmpty.State = PolygonState.Empty;
+            cellToEmpty = _board.Object.Cells.Where(c => c.Coordintes.X == 2 && c.Coordintes.Y == 4).First();
+            cellToEmpty.State = PolygonState.Empty;
+
+            var winScenario = _rules.PostProcessing();
+
+            winScenario.Modifiers.Count.Should().Be(1);
+            winScenario.Modifiers[0].Should().BeAssignableTo<EndGameModifier>();
+        }
+
+        [TestMethod]
+        public void StandardRules_ReportGameStatus_Lost()
+        {
+            var finished = _rules.ReportGameStatus();
+
+            finished.Should().BeAssignableTo<IGameLostInfo>();
+        }
+
+        [TestMethod]
+        public void StandardRules_PostProcessing_Lost()
+        {
+            var lostScenario = _rules.PostProcessing();
+
+            lostScenario.Modifiers.Count.Should().Be(1);
+            lostScenario.Modifiers[0].Should().BeAssignableTo<EndGameModifier>();
         }
     }
 }

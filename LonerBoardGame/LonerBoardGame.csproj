@@ -63,6 +63,7 @@
     <Compile Include="Games\Interfaces\ILonerGame.cs" />
     <Compile Include="Games\LonerGame.cs" />
     <Compile Include="Modifiers\EmptyCellModifier.cs" />
+    <Compile Include="Modifiers\EndGameModifier.cs" />
     <Compile Include="Modifiers\MakeMoveModifier.cs" />
     <Compile Include="Modifiers\StartGameModifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

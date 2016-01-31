@@ -41,7 +41,7 @@ namespace LonerConsole
 
                     case PolygonState.Filled:
                         Console.BackgroundColor = ConsoleColor.Black;
-                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
                         cell = "2";
                         break;
 

@@ -70,7 +70,9 @@ namespace LonerBoardGame.Rules.Tests
             _game = new Mock<ILonerGame>();
             _game.SetupGet(g => g.Board).Returns(_board.Object);
 
-            _rules = new StandardRules(_game.Object);
+            _rules = new StandardRules();
+
+            _rules.Game = _game.Object;
         }
 
         [TestMethod()]

@@ -1,6 +1,8 @@
 ﻿using GamePlatform.Api.Entities;
 using GamePlatform.Api.Infos.Interfaces;
+using GamePlatform.Api.Players;
 using LonerBoardGame.Boards.Interfaces;
+using LonerBoardGame.Games;
 using LonerBoardGame.Modifiers;
 using LonerConsole.Bootstrappers;
 using System;
@@ -91,9 +93,11 @@ namespace LonerConsole
             var infoChannel = new InfoPrinter();
 
             boostrapper.Configure();
-            var game = boostrapper.Start();
+            var factory = boostrapper.Get();
 
-            var player = boostrapper.GetPlayer();
+            var game = factory.GetGameOfType<LonerGame>();
+
+            var player = factory.GetNewPlayerOfType<PlayerBase>();
             
             game.Join(player);
             game.Start();

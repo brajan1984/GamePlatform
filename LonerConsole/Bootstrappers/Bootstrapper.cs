@@ -1,8 +1,11 @@
 ﻿using Autofac;
+using GamePlatform.Api.Games.Interfaces;
 using GamePlatform.Api.Players;
 using GamePlatform.Api.Players.Interfaces;
+using GamePlatform.Api.Services.Interfaces;
 using LonerBoardGame.Games;
 using LonerBoardGame.Games.Interfaces;
+using LonerBoardGame.GameServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +33,9 @@ namespace LonerConsole.Bootstrappers
             _container = builder.Build();
         }
 
-        public ILonerGame Start()
+        public IGameService Get()
         {
-            return _container.Resolve<ILonerGame>();
+            return _container.Resolve<IGameService>();
         }
 
         public IPlayer GetPlayer()

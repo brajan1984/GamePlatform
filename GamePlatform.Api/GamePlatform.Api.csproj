@@ -60,6 +60,7 @@
     <Compile Include="Boards\Interfaces\IPolygon.cs" />
     <Compile Include="Entities\Point3d.cs" />
     <Compile Include="Games\Interfaces\IBoardGame.cs" />
+    <Compile Include="Games\Interfaces\IGame.cs" />
     <Compile Include="Games\Interfaces\IGameElement.cs" />
     <Compile Include="Infos\ErrorInfo.cs" />
     <Compile Include="Infos\GameInProgressInfo.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Rulers\Interfaces\IRuler.cs" />
     <Compile Include="Rulers\Interfaces\IRules.cs" />
     <Compile Include="Rulers\RulerBase.cs" />
+    <Compile Include="Services\Interfaces\IGameService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

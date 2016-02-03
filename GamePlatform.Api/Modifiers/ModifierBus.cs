@@ -10,10 +10,13 @@ namespace GamePlatform.Api.Modifiers
     public class ModifierBus : IModifierBus
     {
         private ISubject<IModifier> _broadcaster = null;
+        private Guid _id;
 
         public ModifierBus()
         {
             _broadcaster = new Subject<IModifier>();
+
+            _id = Guid.NewGuid();
         }
 
         public void OnCompleted()

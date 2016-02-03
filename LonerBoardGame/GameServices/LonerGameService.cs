@@ -10,20 +10,28 @@ using GamePlatform.Api.ModifierBus.Interfaces;
 using GamePlatform.Api.Players.Interfaces;
 using LonerBoardGame.Games.Interfaces;
 using LonerBoardGame.Initializers.Interfaces;
+using LonerBoardGame.Games;
+using Autofac.Features.OwnedInstances;
 
 namespace LonerBoardGame.GameServices
 {
     public class LonerGameService : IGameService
     {
-        private IEnumerable<IGameInitializer> _lonerGamesFactory;
+        private IEnumerable<IGameInitializer<ILonerGame>> _lonerGamesFactory;
         private Func<IPlayer> _playerFactory;
-        private IGame _currentGame;
+        private Owned<ILonerGame> _currentGame;
+
+        public LonerGameService(IEnumerable<IGameInitializer<ILonerGame>> lonerGamesFactory, Func<IPlayer> playerFactory)
+        {
+            _lonerGamesFactory = lonerGamesFactory;
+            _playerFactory = playerFactory;
+        }
 
         public bool HasEnded
         {
             get
             {
-                return _currentGame.HasEnded;
+                return _currentGame.Value.HasEnded; 
             }
         }
 
@@ -31,7 +39,7 @@ namespace LonerBoardGame.GameServices
         {
             get
             {
-                return _currentGame.InfoChannel;
+                return _currentGame.Value.InfoChannel;
             }
         }
 
@@ -39,28 +47,26 @@ namespace LonerBoardGame.GameServices
         {
             get
             {
-                return _currentGame.IsStarted;
+                return _currentGame.Value.IsStarted;
             }
-        }
-
-        public LonerGameService(IEnumerable<IGameInitializer> lonerGamesFactory, Func<IPlayer> playerFactory)
-        {
-            _lonerGamesFactory = lonerGamesFactory;
-            _playerFactory = playerFactory;
         }
 
         public void End()
         {
-            _currentGame.End();
+            _currentGame.Value.End();
         }
 
-        public TGame GetGameOfType<TGame>() 
-            where TGame : class, IGame 
+        public Owned<TGameInterface> GetGameOfType<TGame, TGameInterface>()
+            where TGame : class
         {
-            var func = _lonerGamesFactory.Where(g => g.GameType == typeof(TGame)).FirstOrDefault();
+            var initializer = _lonerGamesFactory.Where(og => og.GameType == typeof(TGame)).First();
 
-            _currentGame = func.Factory();
-            return  _currentGame as TGame;
+            if (initializer != null)
+            {
+                _currentGame = initializer.Creator();
+            }
+
+            return _currentGame as Owned<TGameInterface>;
         }
 
         public TModifier GetModifierOfType<TModifier>() where TModifier : class, IModifier
@@ -75,14 +81,14 @@ namespace LonerBoardGame.GameServices
             return func() as TPlayer;
         }
 
-        public void Join(IPlayer player)
+        public IPlayer Join()
         {
-            _currentGame.Join(player);
+            return _currentGame.Value.Join();
         }
 
         public void Start()
         {
-            _currentGame.Start();
+            _currentGame.Value.Start();
         }
     }
 }

@@ -1,8 +1,11 @@
-﻿using GamePlatform.Api.Entities;
+﻿using Autofac.Features.OwnedInstances;
+using GamePlatform.Api.Entities;
 using GamePlatform.Api.Infos.Interfaces;
 using GamePlatform.Api.Players;
+using GamePlatform.Api.Players.Interfaces;
 using LonerBoardGame.Boards.Interfaces;
 using LonerBoardGame.Games;
+using LonerBoardGame.Games.Interfaces;
 using LonerBoardGame.Modifiers;
 using LonerConsole.Bootstrappers;
 using System;
@@ -95,18 +98,22 @@ namespace LonerConsole
             boostrapper.Configure();
             var factory = boostrapper.Get();
 
-            var game = factory.GetGameOfType<LonerGame>();
+            IPlayer player = null;
+            Owned<ILonerGame> game = null;
+            ILonerGame loner = null;
 
-            var player = factory.GetNewPlayerOfType<PlayerBase>();
-            
-            game.Join(player);
-            game.Start();
+            using (game = factory.GetGameOfType<EasyLonerGame, ILonerGame>())
+            {
+                loner = game.Value;
+                player = game.Value.Join();
+                game.Value.Start();
 
-            game.InfoChannel.Subscribe(infoChannel);
+                game.Value.InfoChannel.Subscribe(infoChannel);
+            }
 
             while (true)
             {
-                DrawBoard(game.Board.Cells.ToList());
+                DrawBoard(game.Value.Board.Cells.ToList());
 
                 Console.SetCursorPosition(0, 25);
                 Console.WriteLine("Print move: ");
@@ -127,7 +134,7 @@ namespace LonerConsole
                     {
                         var from = new Point3d() { X = int.Parse(coordinates[0]), Y = int.Parse(coordinates[1]) };
                         var to = new Point3d() { X = int.Parse(coordinates[2]), Y = int.Parse(coordinates[3]) };
-                        var mod = new MakeMoveModifier(game.Board as IBasicBoard, from, to);
+                        var mod = new MakeMoveModifier(game.Value.Board as IBasicBoard, from, to);
 
                         player.HeaveModifier(mod);
                     }

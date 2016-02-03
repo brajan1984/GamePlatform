@@ -41,9 +41,9 @@ namespace LonerBoardGame.Modules
                 .As<IModifierSeizer>().InstancePerLifetimeScope();
             builder.RegisterType<BasicBoard>().As<IBoard<IBasicPolygon>>().InstancePerLifetimeScope();
             builder.RegisterType<PlayerBase>().As<IPlayer>();
-            builder.RegisterType<LonerGame>().As<ILonerGame>().InstancePerLifetimeScope();
+            builder.RegisterType<EasyLonerGame>().As<ILonerGame>().InstancePerLifetimeScope();
 
-            builder.RegisterType<EasyLonerInitializer>().As<IGameInitializer>().InstancePerLifetimeScope();
+            builder.RegisterType<EasyLonerInitializer>().As<IGameInitializer<ILonerGame>>().InstancePerLifetimeScope();
             builder.RegisterType<LonerGameService>().As<IGameService>();
         }
     }

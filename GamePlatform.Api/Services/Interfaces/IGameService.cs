@@ -1,4 +1,5 @@
-﻿using GamePlatform.Api.Games.Interfaces;
+﻿using Autofac.Features.OwnedInstances;
+using GamePlatform.Api.Games.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
 using GamePlatform.Api.Players.Interfaces;
 using System;
@@ -17,8 +18,8 @@ namespace GamePlatform.Api.Services.Interfaces
         TPlayer GetNewPlayerOfType<TPlayer>()
             where TPlayer : class, IPlayer;
 
-        TGame GetGameOfType<TGame>()
-            where TGame : class, IGame;
+        Owned<TGameInterface> GetGameOfType<TGame, TGameInterface>()
+            where TGame : class;
 
     }
 }

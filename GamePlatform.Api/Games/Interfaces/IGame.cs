@@ -16,6 +16,6 @@ namespace GamePlatform.Api.Games.Interfaces
 
         void Start();
         void End();
-        void Join(IPlayer player);
+        IPlayer Join();
     }
 }

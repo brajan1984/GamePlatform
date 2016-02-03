@@ -17,12 +17,14 @@ using System.Threading.Tasks;
 namespace LonerBoardGame.Games.Tests
 {
     [TestClass()]
-    public class LonerGameTests
+    public class EasyLonerGameTests
     {
         private Mock<IRuler> _ruler;
         private Mock<IModifierSeizer> _modifierExecutor;
         private Mock<IBoard<IBasicPolygon>> _board;
-        private LonerGame _game;
+        private EasyLonerGame _game;
+        private Func<IPlayer> _playerCreator;
+        private Mock<IPlayer> _player;
 
         [TestInitialize]
         public void Setup()
@@ -30,17 +32,20 @@ namespace LonerBoardGame.Games.Tests
             _ruler = new Mock<IRuler>();
             _modifierExecutor = new Mock<IModifierSeizer>();
             _board = new Mock<IBoard<IBasicPolygon>>();
+            _player = new Mock<IPlayer>();
 
             var modifierSeizers = new List<IModifierSeizer>();
 
             modifierSeizers.Add(_ruler.Object);
             modifierSeizers.Add(_modifierExecutor.Object);
 
-            _game = new LonerGame(_ruler.Object, _board.Object, modifierSeizers);
+            _playerCreator = () => { return _player.Object; };
+
+            _game = new EasyLonerGame(_ruler.Object, _board.Object, modifierSeizers, _playerCreator);
         }
 
         [TestMethod()]
-        public void LonerGame_Start()
+        public void EasyLonerGame_Start()
         {
             _game.Start();
 
@@ -54,7 +59,7 @@ namespace LonerBoardGame.Games.Tests
         }
 
         [TestMethod()]
-        public void LonerGame_End()
+        public void EasyLonerGame_End()
         {
             _game.End();
 
@@ -67,12 +72,12 @@ namespace LonerBoardGame.Games.Tests
         }
 
         [TestMethod()]
-        public void LonerGame_Join()
+        public void EasyLonerGame_Join()
         {
-            var player = new Mock<IPlayer>();
+            var player = _game.Join();
 
-            _game.Join(player.Object);
-            (_game.Players as List<IPlayer>)[0].Should().Be(player.Object);
+            player.Should().NotBeNull();
+            (_game.Players as List<IPlayer>)[0].Should().Be(player);
         }
     }
 }

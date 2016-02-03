@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 using GamePlatform.Api.Games.Interfaces;
 using LonerBoardGame.Games.Interfaces;
 using LonerBoardGame.Games;
+using Autofac.Features.OwnedInstances;
 
 namespace LonerBoardGame.Initializers
 {
-    public class EasyLonerInitializer : IGameInitializer
+    public class EasyLonerInitializer : IGameInitializer<ILonerGame>
     {
-        public Func<IGame> Factory { get; private set; }
-
         public Type GameType { get; private set; }
 
-        public EasyLonerInitializer(Func<ILonerGame> factory)
-        {
-            GameType = typeof(LonerGame);
+        public Func<Owned<ILonerGame>> Creator { get; private set; }
 
-            Factory = factory;
+        public EasyLonerInitializer(Func<Owned<ILonerGame>> creator)
+        {
+            GameType = typeof(EasyLonerGame);
+
+            Creator = creator;
         }
     }
 }

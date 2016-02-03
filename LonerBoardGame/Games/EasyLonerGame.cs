@@ -10,13 +10,15 @@ using LonerBoardGame.Boards.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
 using GamePlatform.Api.Rulers.Interfaces;
 using GamePlatform.Api.Infos.Interfaces;
+using GamePlatform.Api.Players;
 
 namespace LonerBoardGame.Games
 {
-    public class LonerGame : ILonerGame
+    public class EasyLonerGame : IEasyLonerGame, IDisposable
     {
         private IEnumerable<IModifierSeizer> _modifierSeizers;
         private IRuler _ruler;
+        private Func<IPlayer> _playerCreator;
 
         public IBoard<IBasicPolygon> Board { get; private set; }
 
@@ -34,11 +36,12 @@ namespace LonerBoardGame.Games
             }
         }
 
-        public LonerGame(IRuler ruler, IBoard<IBasicPolygon> board, IEnumerable<IModifierSeizer> modifierSeizers)
+        public EasyLonerGame(IRuler ruler, IBoard<IBasicPolygon> board, IEnumerable<IModifierSeizer> modifierSeizers, Func<IPlayer> playerCreator)
         {
             Board = board;
             _modifierSeizers = modifierSeizers;
             _ruler = ruler;
+            _playerCreator = playerCreator;
 
             Players = new List<IPlayer>();
         }
@@ -53,9 +56,12 @@ namespace LonerBoardGame.Games
             (Players as List<IPlayer>).Clear();
         }
 
-        public void Join(IPlayer player)
+        public IPlayer Join()
         {
+            var player = _playerCreator();
             (Players as List<IPlayer>).Add(player);
+
+            return player;
         }
 
         public void Start()
@@ -66,5 +72,37 @@ namespace LonerBoardGame.Games
 
             _modifierSeizers.ToList().ForEach(m => m.Subscribe());
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+                
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~EasyLonerGame() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

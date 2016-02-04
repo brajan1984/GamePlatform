@@ -65,17 +65,18 @@
     <Compile Include="Boards\Interfaces\IBasicBoard.cs" />
     <Compile Include="Boards\Interfaces\IBasicPolygon.cs" />
     <Compile Include="GameServices\LonerGameService.cs" />
-    <Compile Include="Games\Interfaces\IEasyLonerGame.cs" />
     <Compile Include="Games\Interfaces\ILonerGame.cs" />
-    <Compile Include="Games\EasyLonerGame.cs" />
-    <Compile Include="Initializers\EasyLonerInitializer.cs" />
-    <Compile Include="Initializers\Interfaces\IGameInitializer.cs" />
+    <Compile Include="Games\LonerGame.cs" />
     <Compile Include="Modifiers\EmptyCellModifier.cs" />
     <Compile Include="Modifiers\EndGameModifier.cs" />
+    <Compile Include="Modifiers\Initializers\MakeMoveModifierInitializer.cs" />
+    <Compile Include="Modifiers\Interfaces\ILonerModifier.cs" />
+    <Compile Include="Modifiers\Interfaces\IModifierInitializer.cs" />
     <Compile Include="Modifiers\MakeMoveModifier.cs" />
     <Compile Include="Modifiers\StartGameModifier.cs" />
     <Compile Include="Modules\LonerModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\Interfaces\IStandardRules.cs" />
     <Compile Include="Rules\StandardRules.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -87,9 +88,7 @@
       <Name>GamePlatform.Api</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rules\NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

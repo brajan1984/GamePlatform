@@ -1,11 +1,9 @@
-﻿using GamePlatform.Api.Games.Interfaces;
+﻿using GamePlatform.Api.Infos;
+using GamePlatform.Api.Infos.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
 using GamePlatform.Api.Rulers.Interfaces;
 using System;
-using GamePlatform.Api.Infos.Interfaces;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using GamePlatform.Api.Infos;
 
 namespace GamePlatform.Api.Rulers
 {
@@ -16,6 +14,7 @@ namespace GamePlatform.Api.Rulers
         private IDisposable _subscription;
 
         private ISubject<IInfo> _infoChannel;
+
         public IObservable<IInfo> InfoChannel
         {
             get
@@ -81,5 +80,29 @@ namespace GamePlatform.Api.Rulers
         {
             _subscription = _bus.SubscribeOnCast(this);
         }
+
+        #region IDisposable Support
+
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _subscription.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
     }
 }

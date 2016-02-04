@@ -2,18 +2,14 @@
 using LonerBoardGame.Boards;
 using LonerBoardGame.Boards.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LonerTests.Boards
 {
     [TestClass]
     public class BasicBoardTests
     {
-        BasicBoard _board;
+        private BasicBoard _board;
 
         [TestInitialize]
         public void Setup()
@@ -41,11 +37,11 @@ namespace LonerTests.Boards
 
             var cells = _board.Cells;
 
-            var solidCells = cells.Where(c => 
+            var solidCells = cells.Where(c =>
                 ((c.Coordintes.X >= 0 && c.Coordintes.X <= 1 && c.Coordintes.Y >= 0 && c.Coordintes.Y <= 1 && c.Coordintes.Z == 0) ||
                 (c.Coordintes.X >= 5 && c.Coordintes.X <= 6 && c.Coordintes.Y >= 0 && c.Coordintes.Y <= 1 && c.Coordintes.Z == 0) ||
                 (c.Coordintes.X >= 0 && c.Coordintes.X <= 1 && c.Coordintes.Y >= 5 && c.Coordintes.Y <= 6 && c.Coordintes.Z == 0) ||
-                (c.Coordintes.X >= 5 && c.Coordintes.X <= 6 && c.Coordintes.Y >= 5 && c.Coordintes.Y <= 6 && c.Coordintes.Z == 0)) && 
+                (c.Coordintes.X >= 5 && c.Coordintes.X <= 6 && c.Coordintes.Y >= 5 && c.Coordintes.Y <= 6 && c.Coordintes.Z == 0)) &&
                 c.State == PolygonState.Solid).ToList();
 
             solidCells.Count.Should().Be(16);

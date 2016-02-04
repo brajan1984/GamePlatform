@@ -2,12 +2,10 @@
 using GamePlatform.Api.Infos.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
 using GamePlatform.Api.Modifiers.Interfaces;
-using GamePlatform.Api.Rulers;
 using GamePlatform.Api.Rulers.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 
@@ -53,7 +51,7 @@ namespace GamePlatform.Api.Rulers.Tests
         {
             _ruler.OnNext(_modifier.Object);
             _rules.Verify(r => r.Advise(It.Is<IDirectModifier<IGameElement>>(m => m == _modifier.Object)), Times.Once);
-            
+
             _bus.Verify(b => b.OnNext(It.Is<IScenario>(s => s == _scenario.Object)), Times.Once);
 
             _rules.Verify(r => r.PostProcessing(), Times.Once);
@@ -76,7 +74,7 @@ namespace GamePlatform.Api.Rulers.Tests
 
             _infoChannel.Verify(i => i.OnNext(It.Is<IInfo>(x => x is IErrorInfo && (x as IErrorInfo).Error == exception)), Times.Once);
         }
-        
+
         [TestMethod()]
         public void RulerBase_OnError_Test()
         {

@@ -1,26 +1,23 @@
-﻿using GamePlatform.Api.Rulers.Interfaces;
+﻿using GamePlatform.Api.Entities;
+using GamePlatform.Api.Infos;
+using GamePlatform.Api.Infos.Interfaces;
+using GamePlatform.Api.ModifierBus.Interfaces;
+using GamePlatform.Api.Modifiers.Modifiers;
+using LonerBoardGame.Boards.Interfaces;
+using LonerBoardGame.Games.Interfaces;
+using LonerBoardGame.Modifiers;
+using LonerBoardGame.Rules.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GamePlatform.Api.ModifierBus.Interfaces;
-using LonerBoardGame.Boards.Interfaces;
-using GamePlatform.Api.Modifiers.Interfaces;
-using LonerBoardGame.Modifiers;
-using LonerBoardGame.Games.Interfaces;
-using GamePlatform.Api.Entities;
-using GamePlatform.Api.Modifiers.Modifiers;
-using GamePlatform.Api.Infos.Interfaces;
-using GamePlatform.Api.Infos;
 
 namespace LonerBoardGame.Rules
 {
-    public class StandardRules : IRules
+    public class StandardRules : IStandardRules
     {
         private readonly Dictionary<Type, Func<IModifier, IScenario>> _judge = new Dictionary<Type, Func<IModifier, IScenario>>();
         public ILonerGame Game { get; set; }
-        
+
         public StandardRules()
         {
             _judge.Add(typeof(MakeMoveModifier), m => { return MoveScenario(m as MakeMoveModifier); });
@@ -135,9 +132,9 @@ namespace LonerBoardGame.Rules
 
             var middleCell = GetMiddleCell(from, to);
 
-            if (middleCell == null || 
-                middleCell.State != PolygonState.Filled || 
-                cellFrom.State != PolygonState.Filled || 
+            if (middleCell == null ||
+                middleCell.State != PolygonState.Filled ||
+                cellFrom.State != PolygonState.Filled ||
                 cellTo.State != PolygonState.Empty)
             {
                 throw new InvalidOperationException(string.Format("Can't move from {0}.", from));
@@ -205,7 +202,7 @@ namespace LonerBoardGame.Rules
                 {
                     var neighbours = GetNeighbours(c);
 
-                    neighbours.ForEach(n => 
+                    neighbours.ForEach(n =>
                     {
                         if (HasNeighbourWithState(n, PolygonState.Empty))
                         {

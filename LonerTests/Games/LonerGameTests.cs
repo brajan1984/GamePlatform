@@ -3,16 +3,11 @@ using GamePlatform.Api.Boards.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
 using GamePlatform.Api.Players.Interfaces;
 using GamePlatform.Api.Rulers.Interfaces;
-using LonerBoardGame.Boards;
 using LonerBoardGame.Boards.Interfaces;
-using LonerBoardGame.Games;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LonerBoardGame.Games.Tests
 {
@@ -21,9 +16,8 @@ namespace LonerBoardGame.Games.Tests
     {
         private Mock<IRuler> _ruler;
         private Mock<IModifierSeizer> _modifierExecutor;
-        private Mock<IBoard<IBasicPolygon>> _board;
-        private EasyLonerGame _game;
-        private Func<IPlayer> _playerCreator;
+        private Mock<IBasicBoard> _board;
+        private LonerGame _game;
         private Mock<IPlayer> _player;
 
         [TestInitialize]
@@ -31,7 +25,7 @@ namespace LonerBoardGame.Games.Tests
         {
             _ruler = new Mock<IRuler>();
             _modifierExecutor = new Mock<IModifierSeizer>();
-            _board = new Mock<IBoard<IBasicPolygon>>();
+            _board = new Mock<IBasicBoard>();
             _player = new Mock<IPlayer>();
 
             var modifierSeizers = new List<IModifierSeizer>();
@@ -39,9 +33,7 @@ namespace LonerBoardGame.Games.Tests
             modifierSeizers.Add(_ruler.Object);
             modifierSeizers.Add(_modifierExecutor.Object);
 
-            _playerCreator = () => { return _player.Object; };
-
-            _game = new EasyLonerGame(_ruler.Object, _board.Object, modifierSeizers, _playerCreator);
+            _game = new LonerGame(_ruler.Object, _board.Object, modifierSeizers);
         }
 
         [TestMethod()]
@@ -74,10 +66,11 @@ namespace LonerBoardGame.Games.Tests
         [TestMethod()]
         public void EasyLonerGame_Join()
         {
-            var player = _game.Join();
+            var player = new Mock<IPlayer>();
 
-            player.Should().NotBeNull();
-            (_game.Players as List<IPlayer>)[0].Should().Be(player);
+            _game.Join(player.Object);
+
+            (_game.Players as List<IPlayer>)[0].Should().Be(player.Object);
         }
     }
 }

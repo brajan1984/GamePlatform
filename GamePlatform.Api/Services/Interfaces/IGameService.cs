@@ -1,25 +1,16 @@
-﻿using Autofac.Features.OwnedInstances;
-using GamePlatform.Api.Games.Interfaces;
+﻿using GamePlatform.Api.Games.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
 using GamePlatform.Api.Players.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GamePlatform.Api.Services.Interfaces
 {
     public interface IGameService : IGame
     {
-        TModifier GetModifierOfType<TModifier>()
-            where TModifier : class, IModifier;
+        IGame Game { get; }
 
-        TPlayer GetNewPlayerOfType<TPlayer>()
-            where TPlayer : class, IPlayer;
+        T GetModifierOfType<T>()
+            where T : class, IModifier;
 
-        Owned<TGameInterface> GetGameOfType<TGame, TGameInterface>()
-            where TGame : class;
-
+        IPlayer GetNewPlayer();
     }
 }

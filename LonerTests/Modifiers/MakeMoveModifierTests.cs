@@ -4,11 +4,7 @@ using LonerBoardGame.Boards.Interfaces;
 using LonerBoardGame.Modifiers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LonerTests.Modifiers
 {
@@ -43,7 +39,7 @@ namespace LonerTests.Modifiers
         [TestMethod]
         public void MakeMoveModifier_Modify()
         {
-            _modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 0, Y = 0 }, new Point3d() { X = 1, Y = 1 });
+            _modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 0, Y = 0 }, To = new Point3d() { X = 1, Y = 1 } };
 
             _modifier.Modify();
 

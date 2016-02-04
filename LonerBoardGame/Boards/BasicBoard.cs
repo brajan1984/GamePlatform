@@ -7,10 +7,12 @@ namespace LonerBoardGame.Boards
 {
     public class BasicBoard : IBasicBoard
     {
+        private Guid _id;
         public IEnumerable<IBasicPolygon> Cells { get; private set; }
-        
+
         public void CreateBoard()
         {
+            _id = Guid.NewGuid();
             var cells = new List<BasicPolygon>();
 
             CreateSolidCells(cells);

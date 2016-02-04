@@ -1,22 +1,19 @@
 ﻿using Autofac.Features.OwnedInstances;
 using GamePlatform.Api.Entities;
 using GamePlatform.Api.Infos.Interfaces;
-using GamePlatform.Api.Players;
 using GamePlatform.Api.Players.Interfaces;
+using GamePlatform.Api.Services.Interfaces;
 using LonerBoardGame.Boards.Interfaces;
-using LonerBoardGame.Games;
 using LonerBoardGame.Games.Interfaces;
 using LonerBoardGame.Modifiers;
 using LonerConsole.Bootstrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LonerConsole
 {
-    class Program
+    internal class Program
     {
         private static void DrawBoard(List<IBasicPolygon> board, int offset = 5)
         {
@@ -58,7 +55,7 @@ namespace LonerConsole
                         break;
                 }
 
-                Console.SetCursorPosition(c.Coordintes.X*2 + offset, c.Coordintes.Y*2 + offset);
+                Console.SetCursorPosition(c.Coordintes.X * 2 + offset, c.Coordintes.Y * 2 + offset);
                 Console.Write(cell);
             });
 
@@ -66,7 +63,7 @@ namespace LonerConsole
             Console.BackgroundColor = ConsoleColor.Black;
         }
 
-        class InfoPrinter : IObserver<IInfo>
+        private class InfoPrinter : IObserver<IInfo>
         {
             public void OnCompleted()
             {
@@ -90,7 +87,7 @@ namespace LonerConsole
             }
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var boostrapper = new Bootstrapper();
             var infoChannel = new InfoPrinter();
@@ -99,44 +96,52 @@ namespace LonerConsole
             var factory = boostrapper.Get();
 
             IPlayer player = null;
-            Owned<ILonerGame> game = null;
-            ILonerGame loner = null;
+            ILonerGame game = null;
+            Owned<IGameService> gameS = null;
 
-            using (game = factory.GetGameOfType<EasyLonerGame, ILonerGame>())
+            using (gameS = factory())
             {
-                loner = game.Value;
-                player = game.Value.Join();
-                game.Value.Start();
+                game = gameS.Value.Game as ILonerGame;
 
-                game.Value.InfoChannel.Subscribe(infoChannel);
-            }
+                player = gameS.Value.GetNewPlayer();
 
-            while (true)
-            {
-                DrawBoard(game.Value.Board.Cells.ToList());
+                game.Join(player);
 
-                Console.SetCursorPosition(0, 25);
-                Console.WriteLine("Print move: ");
-                string read = Console.ReadLine();
+                game.Start();
 
-                if (read == "q")
+                game.InfoChannel.Subscribe(infoChannel);
+
+                while (true)
                 {
-                    break;
-                }
-                else
-                {
-                    string[] coordinates = read.Split(',');
+                    DrawBoard(game.Board.Cells.ToList());
 
-                    Console.SetCursorPosition(0, 26);
-                    Console.WriteLine("");
+                    Console.SetCursorPosition(0, 25);
+                    Console.WriteLine("Print move: ");
+                    string read = Console.ReadLine();
 
-                    if (coordinates.Length == 4)
+                    if (read == "q")
                     {
-                        var from = new Point3d() { X = int.Parse(coordinates[0]), Y = int.Parse(coordinates[1]) };
-                        var to = new Point3d() { X = int.Parse(coordinates[2]), Y = int.Parse(coordinates[3]) };
-                        var mod = new MakeMoveModifier(game.Value.Board as IBasicBoard, from, to);
+                        break;
+                    }
+                    else
+                    {
+                        string[] coordinates = read.Split(',');
 
-                        player.HeaveModifier(mod);
+                        Console.SetCursorPosition(0, 26);
+                        Console.WriteLine("");
+
+                        if (coordinates.Length == 4)
+                        {
+                            var from = new Point3d() { X = int.Parse(coordinates[0]), Y = int.Parse(coordinates[1]) };
+                            var to = new Point3d() { X = int.Parse(coordinates[2]), Y = int.Parse(coordinates[3]) };
+
+                            var modifier = gameS.Value.GetModifierOfType<MakeMoveModifier>();
+
+                            modifier.From = from;
+                            modifier.To = to;
+
+                            player.HeaveModifier(modifier);
+                        }
                     }
                 }
             }

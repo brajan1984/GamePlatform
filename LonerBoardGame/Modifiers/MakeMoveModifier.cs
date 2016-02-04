@@ -2,7 +2,6 @@
 using GamePlatform.Api.Games.Interfaces;
 using GamePlatform.Api.Modifiers.Interfaces;
 using LonerBoardGame.Boards.Interfaces;
-using System;
 using System.Linq;
 
 namespace LonerBoardGame.Modifiers
@@ -13,14 +12,12 @@ namespace LonerBoardGame.Modifiers
 
         public IBasicBoard Target { get; }
 
-        public Point3d From { get; }
-        public Point3d To { get; }
-        
-        public MakeMoveModifier(IBasicBoard target, Point3d from, Point3d to)
+        public Point3d From { get; set; }
+        public Point3d To { get; set; }
+
+        public MakeMoveModifier(IBasicBoard target)
         {
             Target = target;
-            From = from;
-            To = to;
         }
 
         public void Modify()

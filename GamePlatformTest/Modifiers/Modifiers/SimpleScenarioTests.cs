@@ -1,12 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GamePlatform.Api.Modifiers.Modifiers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GamePlatform.Api.ModifierBus.Interfaces;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using GamePlatform.Api.ModifierBus.Interfaces;
 
 namespace GamePlatform.Api.Modifiers.Modifiers.Tests
 {

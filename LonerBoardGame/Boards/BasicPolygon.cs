@@ -1,10 +1,4 @@
-﻿using GamePlatform.Api.Boards.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GamePlatform.Api.Entities;
+﻿using GamePlatform.Api.Entities;
 using LonerBoardGame.Boards.Interfaces;
 
 namespace LonerBoardGame.Boards

@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
-using LonerBoardGame.Games;
-using LonerBoardGame.Games.Interfaces;
-using LonerBoardGame.Rules;
-using GamePlatform.Api.Rulers.Interfaces;
+﻿using Autofac;
+using GamePlatform.Api.Infos.Interfaces;
 using GamePlatform.Api.ModifierBus;
 using GamePlatform.Api.ModifierBus.Interfaces;
-using GamePlatform.Api.Rulers;
-using LonerBoardGame.Boards;
-using GamePlatform.Api.Boards.Interfaces;
-using LonerBoardGame.Boards.Interfaces;
 using GamePlatform.Api.Modifiers;
-using System.Reactive.Subjects;
-using GamePlatform.Api.Infos.Interfaces;
+using GamePlatform.Api.Modifiers.Interfaces;
 using GamePlatform.Api.Players;
 using GamePlatform.Api.Players.Interfaces;
-using LonerBoardGame.GameServices;
+using GamePlatform.Api.Rulers;
+using GamePlatform.Api.Rulers.Interfaces;
 using GamePlatform.Api.Services.Interfaces;
-using LonerBoardGame.Initializers;
-using LonerBoardGame.Initializers.Interfaces;
+using LonerBoardGame.Boards;
+using LonerBoardGame.Boards.Interfaces;
+using LonerBoardGame.Games;
+using LonerBoardGame.Games.Interfaces;
+using LonerBoardGame.GameServices;
+using LonerBoardGame.Modifiers;
+using LonerBoardGame.Modifiers.Initializers;
+using LonerBoardGame.Modifiers.Interfaces;
+using LonerBoardGame.Rules;
+using LonerBoardGame.Rules.Interfaces;
+using System.Reactive.Subjects;
 
 namespace LonerBoardGame.Modules
 {
@@ -32,18 +29,27 @@ namespace LonerBoardGame.Modules
         {
             builder.RegisterType<Subject<IInfo>>().As<ISubject<IInfo>>().InstancePerLifetimeScope();
             builder.RegisterType<ModifierBus>().As<IModifierBus>().InstancePerLifetimeScope();
-            builder.RegisterType<StandardRules>().As<IRules>()
+            builder.RegisterType<StandardRules>()
+                .As<IStandardRules>()
+                .As<IRules>()
                 .InstancePerLifetimeScope()
                 .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
             builder.RegisterType<ModifierExecutor>().As<IModifierSeizer>().InstancePerLifetimeScope();
             builder.RegisterType<RulerBase>()
                 .As<IRuler>()
                 .As<IModifierSeizer>().InstancePerLifetimeScope();
-            builder.RegisterType<BasicBoard>().As<IBoard<IBasicPolygon>>().InstancePerLifetimeScope();
-            builder.RegisterType<PlayerBase>().As<IPlayer>();
-            builder.RegisterType<EasyLonerGame>().As<ILonerGame>().InstancePerLifetimeScope();
 
-            builder.RegisterType<EasyLonerInitializer>().As<IGameInitializer<ILonerGame>>().InstancePerLifetimeScope();
+            #region Modifiers
+
+            builder.RegisterType<MakeMoveModifier>().As<IDirectModifier<IBasicBoard>>();
+            builder.RegisterType<MakeMoveModifierInitializer>().As<IModifierInitializer>().InstancePerLifetimeScope();
+
+            #endregion Modifiers
+
+            builder.RegisterType<BasicBoard>().As<IBasicBoard>().InstancePerLifetimeScope();
+            builder.RegisterType<PlayerBase>().As<IPlayer>();
+            builder.RegisterType<LonerGame>().As<ILonerGame>().InstancePerLifetimeScope();
+
             builder.RegisterType<LonerGameService>().As<IGameService>();
         }
     }

@@ -37,5 +37,29 @@ namespace GamePlatform.Api.ModifierBus
         {
             _bus.Unsubscribe(_subscription);
         }
+
+        #region IDisposable Support
+
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _subscription.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        #endregion IDisposable Support
     }
 }

@@ -1,18 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LonerBoardGame.Rules;
+﻿using FluentAssertions;
+using GamePlatform.Api.Entities;
+using GamePlatform.Api.Infos.Interfaces;
+using LonerBoardGame.Boards;
+using LonerBoardGame.Boards.Interfaces;
+using LonerBoardGame.Games.Interfaces;
+using LonerBoardGame.Modifiers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LonerBoardGame.Boards.Interfaces;
-using Moq;
-using GamePlatform.Api.Entities;
-using LonerBoardGame.Games.Interfaces;
-using LonerBoardGame.Modifiers;
-using FluentAssertions;
-using LonerBoardGame.Boards;
-using GamePlatform.Api.Infos.Interfaces;
 
 namespace LonerBoardGame.Rules.Tests
 {
@@ -64,7 +61,7 @@ namespace LonerBoardGame.Rules.Tests
             cellToFill.State = PolygonState.Filled;
             cellToFill = testBoard.Where(c => c.Coordintes.X == 2 && c.Coordintes.Y == 4).First();
             cellToFill.State = PolygonState.Filled;
-            
+
             _board.SetupGet(b => b.Cells).Returns(testBoard);
 
             _game = new Mock<ILonerGame>();
@@ -82,7 +79,7 @@ namespace LonerBoardGame.Rules.Tests
 
             cellToFill.State = PolygonState.Filled;
 
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 1, Y = 2 }, new Point3d() { X = 3, Y = 2 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 1, Y = 2 }, To = new Point3d() { X = 3, Y = 2 } };
 
             var scenario = _rules.Advise(modifier);
 
@@ -102,7 +99,7 @@ namespace LonerBoardGame.Rules.Tests
 
             cellToFill.State = PolygonState.Filled;
 
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 3, Y = 2 }, new Point3d() { X = 1, Y = 2 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 3, Y = 2 }, To = new Point3d() { X = 1, Y = 2 } };
 
             var scenario = _rules.Advise(modifier);
 
@@ -122,7 +119,7 @@ namespace LonerBoardGame.Rules.Tests
 
             cellToFill.State = PolygonState.Filled;
 
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 1 }, new Point3d() { X = 2, Y = 3 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 2, Y = 1 }, To = new Point3d() { X = 2, Y = 3 } };
 
             var scenario = _rules.Advise(modifier);
 
@@ -142,7 +139,7 @@ namespace LonerBoardGame.Rules.Tests
 
             cellToFill.State = PolygonState.Filled;
 
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 3 }, new Point3d() { X = 2, Y = 1 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 2, Y = 3 }, To = new Point3d() { X = 2, Y = 1 } };
 
             var scenario = _rules.Advise(modifier);
 
@@ -159,7 +156,7 @@ namespace LonerBoardGame.Rules.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void StandardRules_AdviseMoveOnNeighbourCellHorizontallyFront_Test()
         {
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 1 }, new Point3d() { X = 3, Y = 1 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 2, Y = 1 }, To = new Point3d() { X = 3, Y = 1 } };
 
             var scenario = _rules.Advise(modifier);
         }
@@ -168,7 +165,7 @@ namespace LonerBoardGame.Rules.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void StandardRules_AdviseMoveOnNeighbourCellVerticallyFront_Test()
         {
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 1 }, new Point3d() { X = 2, Y = 2 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 2, Y = 1 }, To = new Point3d() { X = 2, Y = 2 } };
 
             var scenario = _rules.Advise(modifier);
         }
@@ -177,7 +174,7 @@ namespace LonerBoardGame.Rules.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void StandardRules_AdviseMoveOnNeighbourCellHorizontallyBack_Test()
         {
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 1 }, new Point3d() { X = 1, Y = 1 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 2, Y = 1 }, To = new Point3d() { X = 1, Y = 1 } };
 
             var scenario = _rules.Advise(modifier);
         }
@@ -186,7 +183,7 @@ namespace LonerBoardGame.Rules.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void StandardRules_AdviseMoveOnNeighbourCellVerticallyBack_Test()
         {
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 2 }, new Point3d() { X = 2, Y = 1 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 2, Y = 2 }, To = new Point3d() { X = 2, Y = 1 } };
 
             var scenario = _rules.Advise(modifier);
         }
@@ -195,7 +192,7 @@ namespace LonerBoardGame.Rules.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void StandardRules_AdviseMoveOnNeighbourCellDiagonallyNE_Test()
         {
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 2 }, new Point3d() { X = 3, Y = 1 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 2, Y = 2 }, To = new Point3d() { X = 3, Y = 1 } };
 
             var scenario = _rules.Advise(modifier);
         }
@@ -204,7 +201,7 @@ namespace LonerBoardGame.Rules.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void StandardRules_AdviseMoveOnNeighbourCellDiagonallySE_Test()
         {
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 2 }, new Point3d() { X = 3, Y = 3 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 2, Y = 2 }, To = new Point3d() { X = 3, Y = 3 } };
 
             var scenario = _rules.Advise(modifier);
         }
@@ -213,7 +210,7 @@ namespace LonerBoardGame.Rules.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void StandardRules_AdviseMoveOnNeighbourCellDiagonallySW_Test()
         {
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 2 }, new Point3d() { X = 1, Y = 3 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 2, Y = 2 }, To = new Point3d() { X = 1, Y = 3 } };
 
             var scenario = _rules.Advise(modifier);
         }
@@ -222,7 +219,7 @@ namespace LonerBoardGame.Rules.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void StandardRules_AdviseMoveOnNeighbourCellDiagonallyNW_Test()
         {
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 2, Y = 2 }, new Point3d() { X = 1, Y = 1 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 2, Y = 2 }, To = new Point3d() { X = 1, Y = 1 } };
 
             var scenario = _rules.Advise(modifier);
         }
@@ -237,7 +234,7 @@ namespace LonerBoardGame.Rules.Tests
             cellToFill = _board.Object.Cells.Where(c => c.Coordintes.X == 3 && c.Coordintes.Y == 2).First();
             cellToFill.State = PolygonState.Filled;
 
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 3, Y = 2 }, new Point3d() { X = 3, Y = 0 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 3, Y = 2 }, To = new Point3d() { X = 3, Y = 0 } };
 
             var scenario = _rules.Advise(modifier);
         }
@@ -252,7 +249,7 @@ namespace LonerBoardGame.Rules.Tests
             cellToFill = _board.Object.Cells.Where(c => c.Coordintes.X == 5 && c.Coordintes.Y == 3).First();
             cellToFill.State = PolygonState.Filled;
 
-            var modifier = new MakeMoveModifier(_board.Object, new Point3d() { X = 5, Y = 3 }, new Point3d() { X = 7, Y = 0 });
+            var modifier = new MakeMoveModifier(_board.Object) { From = new Point3d() { X = 5, Y = 3 }, To = new Point3d() { X = 7, Y = 0 } };
 
             var scenario = _rules.Advise(modifier);
         }

@@ -1,12 +1,5 @@
-﻿using LonerBoardGame.Modifiers;
-using GamePlatform.Api.Modifiers.Interfaces;
+﻿using LonerBoardGame.Games.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LonerBoardGame.Games.Interfaces;
 using Moq;
 
 namespace LonerBoardGame.Modifiers.Tests

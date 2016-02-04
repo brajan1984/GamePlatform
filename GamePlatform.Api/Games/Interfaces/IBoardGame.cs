@@ -1,7 +1,5 @@
 ﻿using GamePlatform.Api.Boards.Interfaces;
-using GamePlatform.Api.Infos.Interfaces;
 using GamePlatform.Api.Players.Interfaces;
-using System;
 using System.Collections.Generic;
 
 namespace GamePlatform.Api.Games.Interfaces

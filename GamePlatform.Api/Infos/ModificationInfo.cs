@@ -1,10 +1,5 @@
-﻿using GamePlatform.Api.Infos.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GamePlatform.Api.Games.Interfaces;
+﻿using GamePlatform.Api.Games.Interfaces;
+using GamePlatform.Api.Infos.Interfaces;
 
 namespace GamePlatform.Api.Infos
 {

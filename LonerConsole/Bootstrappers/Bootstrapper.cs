@@ -1,17 +1,10 @@
 ﻿using Autofac;
-using GamePlatform.Api.Games.Interfaces;
+using Autofac.Features.OwnedInstances;
 using GamePlatform.Api.Players;
 using GamePlatform.Api.Players.Interfaces;
 using GamePlatform.Api.Services.Interfaces;
-using LonerBoardGame.Games;
-using LonerBoardGame.Games.Interfaces;
-using LonerBoardGame.GameServices;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LonerConsole.Bootstrappers
 {
@@ -22,7 +15,7 @@ namespace LonerConsole.Bootstrappers
         public void Configure()
         {
             var builder = new ContainerBuilder();
-            
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(a => a.GetTypes().Any(x => x.IsAssignableTo<Autofac.Module>() && x != typeof(Autofac.Module))).ToArray();
 
@@ -33,9 +26,9 @@ namespace LonerConsole.Bootstrappers
             _container = builder.Build();
         }
 
-        public IGameService Get()
+        public Func<Owned<IGameService>> Get()
         {
-            return _container.Resolve<IGameService>();
+            return _container.Resolve<Func<Owned<IGameService>>>();
         }
 
         public IPlayer GetPlayer()

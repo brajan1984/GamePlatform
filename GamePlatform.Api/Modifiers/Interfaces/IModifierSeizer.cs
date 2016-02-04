@@ -2,9 +2,10 @@
 
 namespace GamePlatform.Api.ModifierBus.Interfaces
 {
-    public interface IModifierSeizer : IObserver<IModifier>
+    public interface IModifierSeizer : IObserver<IModifier>, IDisposable
     {
         void Subscribe();
+
         void Unsubscribe();
     }
 }

@@ -9,10 +9,12 @@ namespace GamePlatform.Api.Players
     public class PlayerBase : IPlayer
     {
         private IModifierBus _bus;
+        private Guid _id;
 
         public PlayerBase(IModifierBus bus)
         {
             _bus = bus;
+            _id = Guid.NewGuid();
         }
 
         public void HeaveModifier<TTarget>(IDirectModifier<TTarget> modifier)

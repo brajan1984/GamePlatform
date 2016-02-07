@@ -82,6 +82,7 @@
     <Compile Include="Modifiers\Interfaces\IModificationHeaver.cs" />
     <Compile Include="Modifiers\Interfaces\IModifier.cs" />
     <Compile Include="Modifiers\Interfaces\IModifierBus.cs" />
+    <Compile Include="Modifiers\Interfaces\IModifierInitializer.cs" />
     <Compile Include="Modifiers\Interfaces\IModifierSeizer.cs" />
     <Compile Include="Modifiers\Interfaces\IModifierSubscriber.cs" />
     <Compile Include="Modifiers\Interfaces\IScenario.cs" />

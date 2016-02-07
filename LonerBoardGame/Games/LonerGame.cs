@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace LonerBoardGame.Games
 {
-    public class LonerGame : ILonerGame, IDisposable
+    public class LonerGame : ILonerGame
     {
         private IEnumerable<IModifierSeizer> _modifierSeizers;
         private IRuler _ruler;
@@ -68,8 +68,7 @@ namespace LonerBoardGame.Games
         }
 
         #region IDisposable Support
-
-        private bool _disposedValue = false;
+        private bool _disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
@@ -77,7 +76,7 @@ namespace LonerBoardGame.Games
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    _modifierSeizers.ToList().ForEach(ms => ms.Dispose());
                 }
 
                 _disposedValue = true;
@@ -88,7 +87,6 @@ namespace LonerBoardGame.Games
         {
             Dispose(true);
         }
-
-        #endregion IDisposable Support
+        #endregion
     }
 }

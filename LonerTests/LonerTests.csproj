@@ -85,9 +85,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Boards\BasicBoardTests.cs" />
+    <Compile Include="GameServices\LonerGameServiceTests.cs" />
     <Compile Include="Games\LonerGameTests.cs" />
     <Compile Include="Modifiers\EmptyCellModifierTests.cs" />
     <Compile Include="Modifiers\EndGameModifierTests.cs" />
+    <Compile Include="Modifiers\Initializers\MakeMoveModifierInitializerTests.cs" />
     <Compile Include="Modifiers\MakeMoveModifierTests.cs" />
     <Compile Include="Modifiers\StartGameModifierTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -4,7 +4,7 @@ using System;
 
 namespace GamePlatform.Api.Games.Interfaces
 {
-    public interface IGame
+    public interface IGame : IDisposable
     {
         bool IsStarted { get; }
         bool HasEnded { get; }

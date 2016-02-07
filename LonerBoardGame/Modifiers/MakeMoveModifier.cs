@@ -2,11 +2,12 @@
 using GamePlatform.Api.Games.Interfaces;
 using GamePlatform.Api.Modifiers.Interfaces;
 using LonerBoardGame.Boards.Interfaces;
+using LonerBoardGame.Modifiers.Interfaces;
 using System.Linq;
 
 namespace LonerBoardGame.Modifiers
 {
-    public class MakeMoveModifier : IDirectModifier<IBasicBoard>
+    public class MakeMoveModifier : IMakeMoveModifier
     {
         public IGameElement Source { get; set; }
 

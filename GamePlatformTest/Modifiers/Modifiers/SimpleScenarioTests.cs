@@ -1,4 +1,5 @@
 ﻿using GamePlatform.Api.ModifierBus.Interfaces;
+using GamePlatform.Api.Modifiers.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

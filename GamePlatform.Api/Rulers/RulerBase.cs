@@ -1,6 +1,7 @@
 ﻿using GamePlatform.Api.Infos;
 using GamePlatform.Api.Infos.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
+using GamePlatform.Api.Modifiers.Interfaces;
 using GamePlatform.Api.Rulers.Interfaces;
 using System;
 using System.Reactive.Subjects;

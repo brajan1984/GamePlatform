@@ -1,5 +1,6 @@
 ﻿using GamePlatform.Api.Games.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
+using GamePlatform.Api.Modifiers.Interfaces;
 using GamePlatform.Api.Players.Interfaces;
 
 namespace GamePlatform.Api.Services.Interfaces

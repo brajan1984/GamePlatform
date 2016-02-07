@@ -1,4 +1,5 @@
-﻿using System.Reactive.Subjects;
+﻿using GamePlatform.Api.Modifiers.Interfaces;
+using System.Reactive.Subjects;
 
 namespace GamePlatform.Api.ModifierBus.Interfaces
 {

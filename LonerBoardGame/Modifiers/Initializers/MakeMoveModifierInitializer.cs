@@ -1,13 +1,14 @@
-﻿using GamePlatform.Api.ModifierBus.Interfaces;
+﻿
+using GamePlatform.Api.Modifiers.Interfaces;
 using LonerBoardGame.Boards.Interfaces;
 using LonerBoardGame.Modifiers.Interfaces;
 using System;
 
 namespace LonerBoardGame.Modifiers.Initializers
 {
-    public class MakeMoveModifierInitializer : IModifierInitializer
+    public class MakeMoveModifierInitializer : ILonerModifierInitializer
     {
-        private IBasicBoard _board;
+        private Func<IMakeMoveModifier> _creator;
 
         public Type ModifierType
         {
@@ -17,12 +18,12 @@ namespace LonerBoardGame.Modifiers.Initializers
         public T Create<T>()
             where T : class, IModifier
         {
-            return new MakeMoveModifier(_board) as T;
+            return _creator() as T;
         }
 
-        public MakeMoveModifierInitializer(IBasicBoard board)
+        public MakeMoveModifierInitializer(Func<IMakeMoveModifier> creator)
         {
-            _board = board;
+            _creator = creator;
         }
     }
 }

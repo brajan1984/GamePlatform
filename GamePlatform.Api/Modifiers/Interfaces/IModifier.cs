@@ -1,4 +1,4 @@
-﻿namespace GamePlatform.Api.ModifierBus.Interfaces
+﻿namespace GamePlatform.Api.Modifiers.Interfaces
 {
     public interface IModifier
     {

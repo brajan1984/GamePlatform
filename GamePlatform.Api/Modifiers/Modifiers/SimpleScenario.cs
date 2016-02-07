@@ -1,4 +1,5 @@
 ﻿using GamePlatform.Api.ModifierBus.Interfaces;
+using GamePlatform.Api.Modifiers.Interfaces;
 using System.Collections.Generic;
 
 namespace GamePlatform.Api.Modifiers.Modifiers

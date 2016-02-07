@@ -1,6 +1,7 @@
 ﻿using GamePlatform.Api.Games.Interfaces;
 using GamePlatform.Api.Infos.Interfaces;
 using GamePlatform.Api.ModifierBus.Interfaces;
+using GamePlatform.Api.Modifiers.Interfaces;
 using GamePlatform.Api.Players.Interfaces;
 using GamePlatform.Api.Services.Interfaces;
 using LonerBoardGame.Games.Interfaces;
@@ -13,21 +14,14 @@ namespace LonerBoardGame.GameServices
 {
     public class LonerGameService : IGameService
     {
-        private Func<ILonerGame> _gameCreator;
         private Func<IPlayer> _playerFactory;
-        private IList<IModifierInitializer> _modifiersFactory;
+        private IList<ILonerModifierInitializer> _modifiersFactory;
 
-        public IGame Game
-        {
-            get
-            {
-                return _gameCreator();
-            }
-        }
+        public IGame Game { get; }
 
-        public LonerGameService(Func<ILonerGame> gameCreator, IList<IModifierInitializer> modifiersFactory, Func<IPlayer> playerFactory)
+        public LonerGameService(ILonerGame game, IList<ILonerModifierInitializer> modifiersFactory, Func<IPlayer> playerFactory)
         {
-            _gameCreator = gameCreator;
+            Game = game;
             _modifiersFactory = modifiersFactory;
             _playerFactory = playerFactory;
         }
@@ -81,7 +75,29 @@ namespace LonerBoardGame.GameServices
         {
             var modifierInitializer = _modifiersFactory.Where(m => m.ModifierType == typeof(T)).First();
             
-            return _modifiersFactory[0].Create<T>();
+            return modifierInitializer.Create<T>();
         }
+
+        #region IDisposable Support
+        private bool _disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Game.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

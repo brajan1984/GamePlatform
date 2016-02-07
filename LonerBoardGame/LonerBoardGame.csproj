@@ -70,8 +70,8 @@
     <Compile Include="Modifiers\EmptyCellModifier.cs" />
     <Compile Include="Modifiers\EndGameModifier.cs" />
     <Compile Include="Modifiers\Initializers\MakeMoveModifierInitializer.cs" />
-    <Compile Include="Modifiers\Interfaces\ILonerModifier.cs" />
-    <Compile Include="Modifiers\Interfaces\IModifierInitializer.cs" />
+    <Compile Include="Modifiers\Interfaces\IMakeMoveModifier.cs" />
+    <Compile Include="Modifiers\Interfaces\ILonerModifierInitializer.cs" />
     <Compile Include="Modifiers\MakeMoveModifier.cs" />
     <Compile Include="Modifiers\StartGameModifier.cs" />
     <Compile Include="Modules\LonerModule.cs" />

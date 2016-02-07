@@ -41,13 +41,13 @@ namespace LonerBoardGame.Modules
 
             #region Modifiers
 
-            builder.RegisterType<MakeMoveModifier>().As<IDirectModifier<IBasicBoard>>();
-            builder.RegisterType<MakeMoveModifierInitializer>().As<IModifierInitializer>().InstancePerLifetimeScope();
+            builder.RegisterType<MakeMoveModifier>().As<IMakeMoveModifier>().ExternallyOwned();
+            builder.RegisterType<MakeMoveModifierInitializer>().As<ILonerModifierInitializer>().InstancePerLifetimeScope();
 
             #endregion Modifiers
 
             builder.RegisterType<BasicBoard>().As<IBasicBoard>().InstancePerLifetimeScope();
-            builder.RegisterType<PlayerBase>().As<IPlayer>();
+            builder.RegisterType<PlayerBase>().As<IPlayer>().ExternallyOwned();
             builder.RegisterType<LonerGame>().As<ILonerGame>().InstancePerLifetimeScope();
 
             builder.RegisterType<LonerGameService>().As<IGameService>();
